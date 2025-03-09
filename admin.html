@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Smart Ambulance Routing System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container admin-container">
+        <!-- Header Section -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <h1>Med<span>Map</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="admin.html" class="active">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-info">
+                    <h3>Admin User</h3>
+                    <p>System Administrator</p>
+                </div>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-tab="ambulances">
+                        <i class="fas fa-ambulance"></i>
+                        <span>Ambulances</span>
+                    </li>
+                    <li data-tab="hospitals">
+                        <i class="fas fa-hospital"></i>
+                        <span>Hospitals</span>
+                    </li>
+                    <li data-tab="emergencies">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Emergencies</span>
+                    </li>
+                    <li data-tab="routes">
+                        <i class="fas fa-route"></i>
+                        <span>Routes</span>
+                    </li>
+                    <li data-tab="users">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </li>
+                    <li data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <button>
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Tab -->
+            <section class="admin-tab active" id="dashboard-tab">
+                <div class="admin-header">
+                    <h2>Admin Dashboard</h2>
+                    <div class="admin-actions">
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="date-range">
+                            <input type="date" id="start-date">
+                            <span>to</span>
+                            <input type="date" id="end-date">
+                            <button class="apply-btn">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Ambulances</h3>
+                            <p class="stat-value">24</p>
+                            <p class="stat-change positive">+2 from last month</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Hospitals</h3>
+                            <p class="stat-value">12</p>
+                            <p class="stat-change">No change</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Emergencies Today</h3>
+                            <p class="stat-value">18</p>
+                            <p class="stat-change negative">+5 from yesterday</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Avg. Response Time</h3>
+                            <p class="stat-value">8.2 min</p>
+                            <p class="stat-change positive">-0.5 min from last week</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-row">
+                    <div class="admin-col">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Active Emergencies</h3>
+                                <button class="view-all-btn">View All</button>
+                            </div>
+                            <div class="emergency-list">
+                                <div class="emergency-item high">
+                                    <div class="emergency-info">
+                                        <h4>Cardiac Arrest</h4>
+                                        <p>123 Main St, Downtown</p>
+                                        <p class="emergency-time">Started: 10:23 AM</p>
+                                    </div>
+                                    <div class="emergency-status">
+                                        <span class="status-badge">In Progress</span>
+                                        <p>ETA: 3 min</p>
+                                    </div>
+                                </div>
+                                <div class="emergency-item medium">
+                                    <div class="emergency-info">
+                                        <h4>Traffic Accident</h4>
+                                        <p>456 Oak Ave, Westside</p>
+                                        <p class="emergency-time">Started: 10:15 AM</p>
+                                    </div>
+                                    <div class="emergency-status">
+                                        <span class="status-badge">Dispatched</span>
+                                        <p>ETA: 7 min</p>
+                                    </div>
+                                </div>
+                                <div class="emergency-item low">
+                                    <div class="emergency-info">
+                                        <h4>Respiratory Distress</h4>
+                                        <p>789 Pine St, Eastside</p>
+                                        <p class="emergency-time">Started: 10:05 AM</p>
+                                    </div>
+                                    <div class="emergency-status">
+                                        <span class="status-badge">At Hospital</span>
+                                        <p>Arrived: 10:22 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-col">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>System Overview</h3>
+                                <div class="card-actions">
+                                    <button class="card-action"><i class="fas fa-download"></i></button>
+                                    <button class="card-action"><i class="fas fa-expand"></i></button>
+                                </div>
+                            </div>
+                            <div class="admin-map" id="admin-overview-map"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-row">
+                    <div class="admin-col">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Hospital Capacity</h3>
+                                <div class="card-actions">
+                                    <button class="card-action"><i class="fas fa-download"></i></button>
+                                    <button class="card-action"><i class="fas fa-expand"></i></button>
+                                </div>
+                            </div>
+                            <div class="hospital-capacity-chart">
+                                <canvas id="hospital-capacity-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-col">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Response Time Trends</h3>
+                                <div class="card-actions">
+                                    <button class="card-action"><i class="fas fa-download"></i></button>
+                                    <button class="card-action"><i class="fas fa-expand"></i></button>
+                                </div>
+                            </div>
+                            <div class="response-time-chart">
+                                <canvas id="response-time-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ambulances Tab -->
+            <section class="admin-tab" id="ambulances-tab">
+                <div class="admin-header">
+                    <h2>Ambulance Management</h2>
+                    <div class="admin-actions">
+                        <button class="add-btn" id="add-ambulance-btn"><i class="fas fa-plus"></i> Add Ambulance</button>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Search ambulances...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Driver</th>
+                                <th>Equipment</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="ambulance-id">
+                                        <i class="fas fa-ambulance"></i>
+                                        <span>AMB-1042</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge available">Available</span></td>
+                                <td>Type II</td>
+                                <td>Alkapuri, Vadodara</td>
+                                <td>
+                                    <div class="driver-info">
+                                        <div class="user-avatar">RS</div>
+                                        <div>Rajesh Singh</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-info">
+                                        <span class="equipment-badge">AED</span>
+                                        <span class="equipment-badge">Oxygen</span>
+                                        <span class="equipment-badge">+3</span>
+                                    </div>
+                                </td>
+                                <td>2 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ambulance-id">
+                                        <i class="fas fa-ambulance"></i>
+                                        <span>AMB-2157</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge dispatched">Dispatched</span></td>
+                                <td>Type III</td>
+                                <td>En route to Fatehgunj, Vadodara</td>
+                                <td>
+                                    <div class="driver-info">
+                                        <div class="user-avatar">SP</div>
+                                        <div>Sunil Patel</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-info">
+                                        <span class="equipment-badge">AED</span>
+                                        <span class="equipment-badge">Ventilator</span>
+                                        <span class="equipment-badge">+5</span>
+                                    </div>
+                                </td>
+                                <td>1 min ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ambulance-id">
+                                        <i class="fas fa-ambulance"></i>
+                                        <span>AMB-3089</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge available">Available</span></td>
+                                <td>Type II</td>
+                                <td>Manjalpur, Vadodara</td>
+                                <td>
+                                    <div class="driver-info">
+                                        <div class="user-avatar">AS</div>
+                                        <div>Amit Singh</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-info">
+                                        <span class="equipment-badge">AED</span>
+                                        <span class="equipment-badge">Oxygen</span>
+                                        <span class="equipment-badge">+2</span>
+                                    </div>
+                                </td>
+                                <td>15 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ambulance-id">
+                                        <i class="fas fa-ambulance"></i>
+                                        <span>AMB-4231</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge dispatched">Dispatched</span></td>
+                                <td>Type II</td>
+                                <td>En route to Karelibaug, Vadodara</td>
+                                <td>
+                                    <div class="driver-info">
+                                        <div class="user-avatar">VD</div>
+                                        <div>Vikram Desai</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-info">
+                                        <span class="equipment-badge">AED</span>
+                                        <span class="equipment-badge">Oxygen</span>
+                                        <span class="equipment-badge">+3</span>
+                                    </div>
+                                </td>
+                                <td>5 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ambulance-id">
+                                        <i class="fas fa-ambulance"></i>
+                                        <span>AMB-5678</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge maintenance">Maintenance</span></td>
+                                <td>Type I</td>
+                                <td>Service Center, Vadodara</td>
+                                <td>
+                                    <div class="driver-info">
+                                        <div>N/A</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="equipment-info">
+                                        <span class="equipment-badge">Under Service</span>
+                                    </div>
+                                </td>
+                                <td>3 hours ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-pages">
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                    </div>
+                    <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="ambulance-map-container">
+                    <div class="ambulance-map-header">
+                        <h3>Ambulance Locations</h3>
+                        <div class="ambulance-map-controls">
+                            <button class="map-control-btn" id="show-all-ambulances"><i class="fas fa-ambulance"></i> All</button>
+                            <button class="map-control-btn" id="show-available"><i class="fas fa-check-circle"></i> Available</button>
+                            <button class="map-control-btn" id="show-dispatched"><i class="fas fa-route"></i> Dispatched</button>
+                        </div>
+                    </div>
+                    <div id="ambulance-map" class="ambulance-map"></div>
+                </div>
+
+                <div class="ambulance-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Ambulances</h3>
+                            <p class="stat-value">24</p>
+                            <p class="stat-change positive">+2 from last month</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Available</h3>
+                            <p class="stat-value">18</p>
+                            <p class="stat-change">75% of fleet</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>On Duty</h3>
+                            <p class="stat-value">5</p>
+                            <p class="stat-change">20.8% of fleet</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>In Maintenance</h3>
+                            <p class="stat-value">1</p>
+                            <p class="stat-change">4.2% of fleet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other tabs will be similar in structure but with different content -->
+            <section class="admin-tab" id="hospitals-tab">
+                <div class="admin-header">
+                    <h2>Hospital Management</h2>
+                    <div class="admin-actions">
+                        <button class="add-btn" id="add-hospital-btn"><i class="fas fa-plus"></i> Add Hospital</button>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Search hospitals...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Hospital Name</th>
+                                <th>Address</th>
+                                <th>Capacity</th>
+                                <th>Wait Time</th>
+                                <th>Status</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SSG Hospital</td>
+                                <td>Jail Road, Vadodara, Gujarat</td>
+                                <td>
+                                    <div class="capacity-indicator">
+                                        <div class="capacity-bar-container">
+                                            <div class="capacity-bar" style="width: 85%"></div>
+                                        </div>
+                                        <span>85% (34/40)</span>
+                                    </div>
+                                </td>
+                                <td>15 mins</td>
+                                <td><span class="status-badge warning">High Load</span></td>
+                                <td>+91 265 2423300</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bhailal Amin General Hospital</td>
+                                <td>Gorwa Road, Vadodara, Gujarat</td>
+                                <td>
+                                    <div class="capacity-indicator">
+                                        <div class="capacity-bar-container">
+                                            <div class="capacity-bar" style="width: 62%"></div>
+                                        </div>
+                                        <span>62% (31/50)</span>
+                                    </div>
+                                </td>
+                                <td>8 mins</td>
+                                <td><span class="status-badge available">Available</span></td>
+                                <td>+91 265 2280300</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Baroda Medical College Hospital</td>
+                                <td>Raopura, Vadodara, Gujarat</td>
+                                <td>
+                                    <div class="capacity-indicator">
+                                        <div class="capacity-bar-container">
+                                            <div class="capacity-bar" style="width: 78%"></div>
+                                        </div>
+                                        <span>78% (23/30)</span>
+                                    </div>
+                                </td>
+                                <td>12 mins</td>
+                                <td><span class="status-badge warning">High Load</span></td>
+                                <td>+91 265 2426110</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Kailash Cancer Hospital</td>
+                                <td>Sayajigunj, Vadodara, Gujarat</td>
+                                <td>
+                                    <div class="capacity-indicator">
+                                        <div class="capacity-bar-container">
+                                            <div class="capacity-bar" style="width: 45%"></div>
+                                        </div>
+                                        <span>45% (27/60)</span>
+                                    </div>
+                                </td>
+                                <td>5 mins</td>
+                                <td><span class="status-badge available">Available</span></td>
+                                <td>+91 265 2361000</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sterling Hospital</td>
+                                <td>Race Course Circle, Vadodara, Gujarat</td>
+                                <td>
+                                    <div class="capacity-indicator">
+                                        <div class="capacity-bar-container">
+                                            <div class="capacity-bar" style="width: 92%"></div>
+                                        </div>
+                                        <span>92% (46/50)</span>
+                                    </div>
+                                </td>
+                                <td>20 mins</td>
+                                <td><span class="status-badge maintenance">Critical</span></td>
+                                <td>+91 265 2355555</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-pages">
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                    </div>
+                    <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <section class="admin-tab" id="emergencies-tab">
+                <div class="admin-header">
+                    <h2>Emergency Management</h2>
+                    <div class="admin-actions">
+                        <button class="add-btn" id="add-emergency-btn"><i class="fas fa-plus"></i> Add Emergency</button>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Search emergencies...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Emergency Type</th>
+                                <th>Patient Name</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Assigned Ambulance</th>
+                                <th>Hospital</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="emergency-type high">
+                                        <i class="fas fa-heartbeat"></i>
+                                        <span>Cardiac Arrest</span>
+                                    </div>
+                                </td>
+                                <td>Ramesh Patel</td>
+                                <td>Alkapuri, Vadodara, Gujarat</td>
+                                <td><span class="status-badge dispatched">In Progress</span></td>
+                                <td>AMB-1042 (Rajesh Singh)</td>
+                                <td>SSG Hospital</td>
+                                <td>
+                                    <div class="time-info">
+                                        <div>Started: 10:23 AM</div>
+                                        <div>ETA: 3 min</div>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="emergency-type medium">
+                                        <i class="fas fa-car-crash"></i>
+                                        <span>Traffic Accident</span>
+                                    </div>
+                                </td>
+                                <td>Suresh Mehta</td>
+                                <td>Fatehgunj, Vadodara, Gujarat</td>
+                                <td><span class="status-badge dispatched">Dispatched</span></td>
+                                <td>AMB-2157 (Sunil Patel)</td>
+                                <td>Bhailal Amin General Hospital</td>
+                                <td>
+                                    <div class="time-info">
+                                        <div>Started: 10:15 AM</div>
+                                        <div>ETA: 7 min</div>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="emergency-type low">
+                                        <i class="fas fa-lungs"></i>
+                                        <span>Respiratory Distress</span>
+                                    </div>
+                                </td>
+                                <td>Anita Shah</td>
+                                <td>Manjalpur, Vadodara, Gujarat</td>
+                                <td><span class="status-badge available">Completed</span></td>
+                                <td>AMB-3089 (Amit Singh)</td>
+                                <td>Baroda Medical College Hospital</td>
+                                <td>
+                                    <div class="time-info">
+                                        <div>Started: 10:05 AM</div>
+                                        <div>Completed: 10:22 AM</div>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="emergency-type medium">
+                                        <i class="fas fa-brain"></i>
+                                        <span>Stroke Symptoms</span>
+                                    </div>
+                                </td>
+                                <td>Prakash Joshi</td>
+                                <td>Karelibaug, Vadodara, Gujarat</td>
+                                <td><span class="status-badge dispatched">In Progress</span></td>
+                                <td>AMB-4231 (Vikram Desai)</td>
+                                <td>Sterling Hospital</td>
+                                <td>
+                                    <div class="time-info">
+                                        <div>Started: 9:58 AM</div>
+                                        <div>ETA: 2 min</div>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="emergency-type high">
+                                        <i class="fas fa-baby"></i>
+                                        <span>Childbirth</span>
+                                    </div>
+                                </td>
+                                <td>Meena Patel</td>
+                                <td>Sayajigunj, Vadodara, Gujarat</td>
+                                <td><span class="status-badge maintenance">Pending</span></td>
+                                <td>Unassigned</td>
+                                <td>Pending</td>
+                                <td>
+                                    <div class="time-info">
+                                        <div>Received: 10:30 AM</div>
+                                        <div>Waiting: 2 min</div>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-pages">
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                    </div>
+                    <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="emergency-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Active Emergencies</h3>
+                            <p class="stat-value">4</p>
+                            <p class="stat-change">Current</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Avg. Response Time</h3>
+                            <p class="stat-value">8.2 min</p>
+                            <p class="stat-change positive">-0.5 min from yesterday</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Critical Cases</h3>
+                            <p class="stat-value">2</p>
+                            <p class="stat-change negative">+1 from yesterday</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Completed Today</h3>
+                            <p class="stat-value">14</p>
+                            <p class="stat-change positive">+3 from yesterday</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-tab" id="routes-tab">
+                <div class="admin-header">
+                    <h2>Route Management</h2>
+                    <div class="admin-actions">
+                        <button class="add-btn" id="add-route-btn"><i class="fas fa-plus"></i> Add Route</button>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Search routes...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Route ID</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Distance</th>
+                                <th>Est. Time</th>
+                                <th>Traffic Status</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="route-id">
+                                        <i class="fas fa-route"></i>
+                                        <span>RT-1001</span>
+                                    </div>
+                                </td>
+                                <td>Alkapuri, Vadodara</td>
+                                <td>SSG Hospital, Vadodara</td>
+                                <td>4.2 km</td>
+                                <td>12 min</td>
+                                <td><span class="status-badge warning">Moderate</span></td>
+                                <td>5 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="route-id">
+                                        <i class="fas fa-route"></i>
+                                        <span>RT-1002</span>
+                                    </div>
+                                </td>
+                                <td>Fatehgunj, Vadodara</td>
+                                <td>Bhailal Amin Hospital, Vadodara</td>
+                                <td>3.5 km</td>
+                                <td>8 min</td>
+                                <td><span class="status-badge available">Light</span></td>
+                                <td>10 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="route-id">
+                                        <i class="fas fa-route"></i>
+                                        <span>RT-1003</span>
+                                    </div>
+                                </td>
+                                <td>Manjalpur, Vadodara</td>
+                                <td>Baroda Medical College, Vadodara</td>
+                                <td>5.8 km</td>
+                                <td>18 min</td>
+                                <td><span class="status-badge maintenance">Heavy</span></td>
+                                <td>2 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="route-id">
+                                        <i class="fas fa-route"></i>
+                                        <span>RT-1004</span>
+                                    </div>
+                                </td>
+                                <td>Karelibaug, Vadodara</td>
+                                <td>Sterling Hospital, Vadodara</td>
+                                <td>6.2 km</td>
+                                <td>15 min</td>
+                                <td><span class="status-badge warning">Moderate</span></td>
+                                <td>7 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="route-id">
+                                        <i class="fas fa-route"></i>
+                                        <span>RT-1005</span>
+                                    </div>
+                                </td>
+                                <td>Sayajigunj, Vadodara</td>
+                                <td>Kailash Cancer Hospital, Vadodara</td>
+                                <td>2.8 km</td>
+                                <td>7 min</td>
+                                <td><span class="status-badge available">Light</span></td>
+                                <td>15 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-pages">
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                    </div>
+                    <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="route-map-container">
+                    <div class="route-map-header">
+                        <h3>Route Visualization</h3>
+                        <div class="route-map-controls">
+                            <button class="map-control-btn" id="show-all-routes"><i class="fas fa-globe"></i> Show All</button>
+                            <button class="map-control-btn" id="show-traffic"><i class="fas fa-car"></i> Traffic</button>
+                            <button class="map-control-btn" id="optimize-routes"><i class="fas fa-magic"></i> Optimize</button>
+                        </div>
+                    </div>
+                    <div id="route-map" class="route-map"></div>
+                </div>
+
+                <div class="route-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Avg. Speed</h3>
+                            <p class="stat-value">32 km/h</p>
+                            <p class="stat-change negative">-5 km/h from normal</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Avg. Travel Time</h3>
+                            <p class="stat-value">12 min</p>
+                            <p class="stat-change negative">+3 min from normal</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Routes</h3>
+                            <p class="stat-value">15</p>
+                            <p class="stat-change">Active</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>AI Optimizations</h3>
+                            <p class="stat-value">87%</p>
+                            <p class="stat-change positive">+5% from last week</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-tab" id="users-tab">
+                <div class="admin-header">
+                    <h2>User Management</h2>
+                    <div class="admin-actions">
+                        <button class="add-btn" id="add-user-btn"><i class="fas fa-plus"></i> Add User</button>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Search users...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>Last Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">RS</div>
+                                        <div>Rajesh Singh</div>
+                                    </div>
+                                </td>
+                                <td>Ambulance Driver</td>
+                                <td>+91 98765 43210</td>
+                                <td><span class="status-badge available">Active</span></td>
+                                <td>Just now</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">SP</div>
+                                        <div>Sunil Patel</div>
+                                    </div>
+                                </td>
+                                <td>Ambulance Driver</td>
+                                <td>+91 98765 43211</td>
+                                <td><span class="status-badge available">Active</span></td>
+                                <td>5 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">AS</div>
+                                        <div>Amit Singh</div>
+                                    </div>
+                                </td>
+                                <td>Ambulance Driver</td>
+                                <td>+91 98765 43212</td>
+                                <td><span class="status-badge warning">On Break</span></td>
+                                <td>25 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">VD</div>
+                                        <div>Vikram Desai</div>
+                                    </div>
+                                </td>
+                                <td>Ambulance Driver</td>
+                                <td>+91 98765 43213</td>
+                                <td><span class="status-badge maintenance">Off Duty</span></td>
+                                <td>2 hours ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">PM</div>
+                                        <div>Priya Mehta</div>
+                                    </div>
+                                </td>
+                                <td>Hospital Admin</td>
+                                <td>+91 98765 43214</td>
+                                <td><span class="status-badge available">Active</span></td>
+                                <td>Just now</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">RJ</div>
+                                        <div>Rahul Joshi</div>
+                                    </div>
+                                </td>
+                                <td>System Admin</td>
+                                <td>+91 98765 43215</td>
+                                <td><span class="status-badge available">Active</span></td>
+                                <td>10 mins ago</td>
+                                <td class="actions-cell">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-pages">
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                    </div>
+                    <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <section class="admin-tab" id="settings-tab">
+                <div class="admin-header">
+                    <h2>System Settings</h2>
+                    <div class="admin-actions">
+                        <button class="save-btn" id="save-settings-btn"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+
+                <div class="settings-container">
+                    <form id="system-settings-form">
+                        <div class="settings-section">
+                            <h3><i class="fas fa-map-marked-alt"></i> Map Settings</h3>
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="default-location">Default Map Center (Vadodara)</label>
+                                    <div class="input-group">
+                                        <input type="text" id="default-latitude" placeholder="Latitude" value="22.3072" required>
+                                        <input type="text" id="default-longitude" placeholder="Longitude" value="73.1812" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="default-zoom">Default Zoom Level</label>
+                                    <input type="number" id="default-zoom" min="1" max="20" value="13" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="map-provider">Map Provider</label>
+                                    <select id="map-provider" required>
+                                        <option value="osm" selected>OpenStreetMap</option>
+                                        <option value="google">Google Maps</option>
+                                        <option value="mapbox">Mapbox</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="map-style">Map Style</label>
+                                    <select id="map-style" required>
+                                        <option value="standard" selected>Standard</option>
+                                        <option value="satellite">Satellite</option>
+                                        <option value="dark">Dark Mode</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-ambulance"></i> Ambulance Settings</h3>
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="ambulance-refresh-rate">Location Refresh Rate (seconds)</label>
+                                    <input type="number" id="ambulance-refresh-rate" min="5" max="60" value="10" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ambulance-idle-timeout">Idle Timeout (minutes)</label>
+                                    <input type="number" id="ambulance-idle-timeout" min="5" max="60" value="15" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ambulance-status-colors">Status Color Coding</label>
+                                    <div class="color-settings">
+                                        <div class="color-setting">
+                                            <span>Available:</span>
+                                            <input type="color" id="available-color" value="#2ecc71">
+                                        </div>
+                                        <div class="color-setting">
+                                            <span>Dispatched:</span>
+                                            <input type="color" id="dispatched-color" value="#f39c12">
+                                        </div>
+                                        <div class="color-setting">
+                                            <span>Maintenance:</span>
+                                            <input type="color" id="maintenance-color" value="#e74c3c">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Auto-Dispatch</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="auto-dispatch" checked>
+                                        <label for="auto-dispatch"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-hospital"></i> Hospital Settings</h3>
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="capacity-warning">Capacity Warning Threshold (%)</label>
+                                    <input type="number" id="capacity-warning" min="50" max="90" value="75" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="capacity-critical">Capacity Critical Threshold (%)</label>
+                                    <input type="number" id="capacity-critical" min="80" max="100" value="90" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospital-refresh-rate">Data Refresh Rate (minutes)</label>
+                                    <input type="number" id="hospital-refresh-rate" min="1" max="60" value="5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Auto-Redirect to Available Hospitals</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="auto-redirect" checked>
+                                        <label for="auto-redirect"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-cogs"></i> System Settings</h3>
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="emergency-timeout">Emergency Timeout (minutes)</label>
+                                    <input type="number" id="emergency-timeout" min="30" max="240" value="60" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="notification-sound">Notification Sound</label>
+                                    <select id="notification-sound" required>
+                                        <option value="alert1" selected>Alert 1</option>
+                                        <option value="alert2">Alert 2</option>
+                                        <option value="alert3">Alert 3</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Enable AI Route Optimization</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="ai-optimization" checked>
+                                        <label for="ai-optimization"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Enable Data Analytics</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="data-analytics" checked>
+                                        <label for="data-analytics"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="reset-btn">Reset to Defaults</button>
+                            <button type="submit" class="submit-btn">Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Ambulance Modal -->
+    <div class="modal" id="add-ambulance-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Ambulance</h2>
+            <form id="add-ambulance-form">
+                <div class="form-group">
+                    <label for="ambulance-id">Ambulance ID</label>
+                    <input type="text" id="ambulance-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="ambulance-type">Type</label>
+                    <select id="ambulance-type" required>
+                        <option value="">Select type</option>
+                        <option value="type1">Type I</option>
+                        <option value="type2">Type II</option>
+                        <option value="type3">Type III</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ambulance-driver">Driver</label>
+                    <input type="text" id="ambulance-driver">
+                </div>
+                <div class="form-group">
+                    <label for="ambulance-location">Base Location</label>
+                    <input type="text" id="ambulance-location" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Ambulance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="add-user-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New User</h2>
+            <form id="add-user-form">
+                <div class="form-group">
+                    <label for="user-name">Full Name</label>
+                    <input type="text" id="user-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-role">Role</label>
+                    <select id="user-role" required>
+                        <option value="">Select role</option>
+                        <option value="driver">Ambulance Driver</option>
+                        <option value="hospital-admin">Hospital Admin</option>
+                        <option value="system-admin">System Admin</option>
+                        <option value="dispatcher">Dispatcher</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user-contact">Contact Number</label>
+                    <input type="tel" id="user-contact" pattern="[0-9]{10}" placeholder="+91 XXXXX XXXXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Email</label>
+                    <input type="email" id="user-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-password">Password</label>
+                    <input type="password" id="user-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-status">Status</label>
+                    <select id="user-status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Emergency Modal -->
+    <div class="modal" id="add-emergency-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Emergency</h2>
+            <form id="add-emergency-form">
+                <div class="form-group">
+                    <label for="emergency-type">Emergency Type</label>
+                    <select id="emergency-type" required>
+                        <option value="">Select type</option>
+                        <option value="cardiac">Cardiac Arrest</option>
+                        <option value="accident">Traffic Accident</option>
+                        <option value="respiratory">Respiratory Distress</option>
+                        <option value="stroke">Stroke Symptoms</option>
+                        <option value="childbirth">Childbirth</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="emergency-severity">Severity</label>
+                    <select id="emergency-severity" required>
+                        <option value="">Select severity</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="patient-name">Patient Name</label>
+                    <input type="text" id="patient-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="patient-contact">Contact Number</label>
+                    <input type="tel" id="patient-contact" pattern="[0-9]{10}" placeholder="+91 XXXXX XXXXX">
+                </div>
+                <div class="form-group">
+                    <label for="emergency-location">Location</label>
+                    <input type="text" id="emergency-location" required>
+                </div>
+                <div class="form-group">
+                    <label for="emergency-description">Description</label>
+                    <textarea id="emergency-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="assign-ambulance">Assign Ambulance</label>
+                    <select id="assign-ambulance">
+                        <option value="">Auto-assign</option>
+                        <option value="AMB-1042">AMB-1042 (Rajesh Singh)</option>
+                        <option value="AMB-2157">AMB-2157 (Sunil Patel)</option>
+                        <option value="AMB-3089">AMB-3089 (Amit Singh)</option>
+                        <option value="AMB-4231">AMB-4231 (Vikram Desai)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="assign-hospital">Assign Hospital</label>
+                    <select id="assign-hospital">
+                        <option value="">Auto-assign</option>
+                        <option value="SSG Hospital">SSG Hospital</option>
+                        <option value="Bhailal Amin General Hospital">Bhailal Amin General Hospital</option>
+                        <option value="Baroda Medical College Hospital">Baroda Medical College Hospital</option>
+                        <option value="Kailash Cancer Hospital">Kailash Cancer Hospital</option>
+                        <option value="Sterling Hospital">Sterling Hospital</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Emergency</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Route Modal -->
+    <div class="modal" id="add-route-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Route</h2>
+            <form id="add-route-form">
+                <div class="form-group">
+                    <label for="route-name">Route Name</label>
+                    <input type="text" id="route-name" placeholder="e.g., Alkapuri to SSG Hospital" required>
+                </div>
+                <div class="form-group">
+                    <label for="route-from">Starting Point</label>
+                    <select id="route-from" required>
+                        <option value="">Select location</option>
+                        <option value="Alkapuri">Alkapuri, Vadodara</option>
+                        <option value="Fatehgunj">Fatehgunj, Vadodara</option>
+                        <option value="Manjalpur">Manjalpur, Vadodara</option>
+                        <option value="Karelibaug">Karelibaug, Vadodara</option>
+                        <option value="Sayajigunj">Sayajigunj, Vadodara</option>
+                        <option value="Akota">Akota, Vadodara</option>
+                        <option value="Gorwa">Gorwa, Vadodara</option>
+                        <option value="Raopura">Raopura, Vadodara</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="route-to">Destination</label>
+                    <select id="route-to" required>
+                        <option value="">Select location</option>
+                        <option value="SSG Hospital">SSG Hospital, Vadodara</option>
+                        <option value="Bhailal Amin Hospital">Bhailal Amin General Hospital, Vadodara</option>
+                        <option value="Baroda Medical College">Baroda Medical College, Vadodara</option>
+                        <option value="Sterling Hospital">Sterling Hospital, Vadodara</option>
+                        <option value="Kailash Cancer Hospital">Kailash Cancer Hospital, Vadodara</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="route-type">Route Type</label>
+                    <select id="route-type" required>
+                        <option value="">Select type</option>
+                        <option value="fastest">Fastest Route</option>
+                        <option value="shortest">Shortest Route</option>
+                        <option value="alternative">Alternative Route</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="route-traffic">Current Traffic</label>
+                    <select id="route-traffic" required>
+                        <option value="">Select traffic condition</option>
+                        <option value="light">Light</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="heavy">Heavy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="route-distance">Distance (km)</label>
+                    <input type="number" id="route-distance" step="0.1" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="route-time">Estimated Time (minutes)</label>
+                    <input type="number" id="route-time" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="route-notes">Notes</label>
+                    <textarea id="route-notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Route</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html> 
