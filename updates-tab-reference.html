@@ -1,0 +1,399 @@
+<!-- Recent Updates Tab -->
+<section class="admin-tab" id="updates-tab">
+    <div class="admin-header">
+        <h2>Recent Updates</h2>
+        <div class="admin-actions">
+            <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+            <div class="search-box">
+                <input type="text" placeholder="Search updates...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="updates-container">
+        <div class="updates-filter-bar">
+            <div class="filter-group">
+                <label>Filter by:</label>
+                <div class="filter-options">
+                    <button class="filter-option active">All</button>
+                    <button class="filter-option">System</button>
+                    <button class="filter-option">Feature</button>
+                    <button class="filter-option">Security</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="updates-timeline">
+            <!-- Medical Store Update -->
+            <div class="update-item feature-update">
+                <div class="update-icon">
+                    <i class="fas fa-store-alt"></i>
+                </div>
+                <div class="update-content">
+                    <div class="update-header">
+                        <h3>Medical Store UI Redesigned</h3>
+                        <span class="update-badge feature">New Feature</span>
+                        <span class="update-time">Today</span>
+                    </div>
+                    <div class="update-description">
+                        <p>The Medical Store section has been completely redesigned with a modern split-view layout featuring an interactive map and improved filtering options. New registration system for pharmacies, hospitals, and ambulance services has been added.</p>
+                    </div>
+                    <div class="update-actions">
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambulance Tracking Update -->
+            <div class="update-item system-update">
+                <div class="update-icon">
+                    <i class="fas fa-ambulance"></i>
+                </div>
+                <div class="update-content">
+                    <div class="update-header">
+                        <h3>Ambulance Tracking Dashboard Improved</h3>
+                        <span class="update-badge system">System Update</span>
+                        <span class="update-time">Yesterday</span>
+                    </div>
+                    <div class="update-description">
+                        <p>The ambulance tracking system has been enhanced with real-time location updates, route optimization, and improved ETA calculations. Dispatchers can now view detailed information about each ambulance's equipment and staff.</p>
+                    </div>
+                    <div class="update-actions">
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Update -->
+            <div class="update-item security-update">
+                <div class="update-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="update-content">
+                    <div class="update-header">
+                        <h3>Security Enhancements Implemented</h3>
+                        <span class="update-badge security">Security Update</span>
+                        <span class="update-time">3 days ago</span>
+                    </div>
+                    <div class="update-description">
+                        <p>System-wide security improvements have been implemented, including enhanced data encryption, improved user authentication, and role-based access controls. All sensitive patient information is now protected with end-to-end encryption.</p>
+                    </div>
+                    <div class="update-actions">
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="updates-footer">
+            <button class="load-more-btn">Load More Updates</button>
+            <p class="updates-count">Showing 3 of 15 updates</p>
+        </div>
+    </div>
+</section>
+
+<!-- CSS for Updates Tab -->
+<style>
+/* Updates Tab Styles */
+.updates-container {
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.updates-filter-bar {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter-options {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-option {
+    padding: 5px 15px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-option:hover {
+    background: #f1f3f5;
+}
+
+.filter-option.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.updates-timeline {
+    padding: 20px;
+}
+
+.update-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.2s;
+}
+
+.update-item:last-child {
+    border-bottom: none;
+}
+
+.update-item:hover {
+    background: #f8f9fa;
+}
+
+.update-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.feature-update .update-icon {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+.system-update .update-icon {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.security-update .update-icon {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.update-content {
+    flex: 1;
+}
+
+.update-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.update-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.update-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.update-badge.feature {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+.update-badge.system {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.update-badge.security {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.update-time {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.update-description p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #495057;
+}
+
+.update-actions {
+    margin-top: 15px;
+}
+
+.view-details-btn {
+    padding: 5px 15px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-details-btn:hover {
+    background: #e9ecef;
+}
+
+.updates-footer {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.load-more-btn {
+    padding: 8px 15px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.load-more-btn:hover {
+    background: #f1f3f5;
+}
+
+.updates-count {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin: 0;
+}
+</style>
+
+<!-- JavaScript for Updates Tab -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initUpdatesTab();
+});
+
+/**
+ * Initialize updates tab functionality
+ */
+function initUpdatesTab() {
+    // Filter update items
+    const filterOptions = document.querySelectorAll('.filter-option');
+    const updateItems = document.querySelectorAll('.update-item');
+    
+    if (filterOptions && updateItems) {
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Reset active state
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                const filter = option.textContent.trim().toLowerCase();
+                
+                // Show/hide items based on filter
+                updateItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'flex';
+                    } else {
+                        // Check if item has a matching class or tag
+                        const hasMatch = item.classList.contains(`${filter}-update`) || 
+                                        item.querySelector(`.update-badge.${filter}`);
+                        
+                        item.style.display = hasMatch ? 'flex' : 'none';
+                    }
+                });
+            });
+        });
+    }
+    
+    // "Load More" button functionality
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            // This would typically load more updates from the server
+            // For demo purposes, we'll just show a message
+            const updatesCount = document.querySelector('.updates-count');
+            if (updatesCount) {
+                updatesCount.textContent = 'Showing all 15 updates';
+            }
+            
+            // Disable the button after it's been clicked
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'All Updates Loaded';
+            loadMoreBtn.classList.add('disabled');
+        });
+    }
+    
+    // View details button functionality
+    const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+    if (viewDetailsButtons) {
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const updateItem = e.target.closest('.update-item');
+                const updateTitle = updateItem.querySelector('h3').textContent;
+                
+                // In a real app, this would open a modal with detailed information
+                alert(`Viewing details for: ${updateTitle}`);
+            });
+        });
+    }
+    
+    // Mark updates as read
+    const updateItems = document.querySelectorAll('.update-item');
+    if (updateItems) {
+        updateItems.forEach(item => {
+            // Mark as read when clicked or view details clicked
+            item.addEventListener('click', () => {
+                if (!item.classList.contains('read')) {
+                    item.classList.add('read');
+                    updateUnreadCount();
+                }
+            });
+        });
+    }
+    
+    // Initialize unread count
+    updateUnreadCount();
+}
+
+/**
+ * Update the unread updates count in the sidebar badge
+ */
+function updateUnreadCount() {
+    const updateBadge = document.querySelector('.admin-nav li[data-tab="updates"] .update-badge');
+    const unreadItems = document.querySelectorAll('.update-item:not(.read)');
+    
+    if (updateBadge) {
+        const count = unreadItems.length;
+        updateBadge.textContent = count;
+        
+        // Hide badge if no unread updates
+        if (count === 0) {
+            updateBadge.style.display = 'none';
+        } else {
+            updateBadge.style.display = 'inline-flex';
+        }
+    }
+}
+</script> 
