@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Smart Ambulance Routing System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .about-container {
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 0 20px;
+        }
+        .about-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .about-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .about-section h3 {
+            color: #34495e;
+            margin: 20px 0 15px;
+            font-size: 20px;
+        }
+        .about-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .about-section ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .about-section ul li {
+            color: #555;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .about-section ul li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+        .team-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        .team-member h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .team-member p {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <h1>Med<span>Map</span></h1>
+            </div>
+            <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay" aria-hidden="true"></div>
+        <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <i class="fas fa-ambulance"></i>
+                    <h1>Med<span>Map</span></h1>
+                </div>
+                <button class="close-mobile-menu" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3>Guest User</h3>
+                    <p>Visitor</p>
+                </div>
+            </div>
+            
+            <ul class="mobile-nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="medical-store.html"><i class="fas fa-store-alt"></i> Medical Store</a></li>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+                <li><a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+            
+            <div class="mobile-menu-footer">
+                <div class="mobile-contact">
+                    <p><i class="fas fa-phone"></i> Emergency: 108</p>
+                    <p><i class="fas fa-envelope"></i> help@medmap.org</p>
+                </div>
+                
+                <div class="mobile-logout">
+                    <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <div class="about-container">
+                <div class="about-section">
+                    <h2>About Smart Ambulance Routing System</h2>
+                    
+                    <h3>Our Story</h3>
+                    <p>Founded in 2024, the Smart Ambulance Routing System (MedMap) emerged from a vision to revolutionize emergency medical services in Vadodara. Our journey began with a simple yet powerful idea: to save lives by optimizing emergency response times through cutting-edge technology.</p>
+
+                    <h3>Our Mission</h3>
+                    <p>To provide rapid, efficient, and reliable emergency medical transportation services by leveraging innovative technology solutions. We aim to reduce response times, improve patient outcomes, and enhance the overall emergency healthcare system.</p>
+
+                    <h3>Our Vision</h3>
+                    <p>To become the leading emergency medical response system in India, setting new standards for emergency healthcare delivery through technological innovation and operational excellence.</p>
+
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>Real-time ambulance tracking and location monitoring</li>
+                        <li>Dynamic hospital availability updates</li>
+                        <li>AI-powered route optimization</li>
+                        <li>Emergency response coordination</li>
+                        <li>Hospital bed availability tracking</li>
+                        <li>Emergency contact management</li>
+                    </ul>
+
+                    <h3>Our Impact</h3>
+                    <ul>
+                        <li>Reduced emergency response times by 40%</li>
+                        <li>Improved hospital selection accuracy</li>
+                        <li>Enhanced coordination between emergency services</li>
+                        <li>Better resource utilization</li>
+                        <li>Increased patient survival rates</li>
+                    </ul>
+
+                    <h3>Our Team</h3>
+                    <div class="team-section">
+                        <div class="team-member">
+                            <img src="swapnil.jpg" alt="CEO">
+                            <h4>Er.Swapnil Madhesia</h4>
+                            <p>CEO & Founder</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="me.jpg" alt="CTO">
+                            <h4>Er.Raushan Kumar</h4>
+                            <p>Co-Founder & Chief Technology Officer</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="abhinav.jpg" alt="Operations Head">
+                            <h4>Er.Abhinav Raj</h4>
+                            <p>Head of Operations</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="orchi.jpg" alt="Operations Head">
+                            <h4>Orchi Dey</h4>
+                            <p>Business Development Manager</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="AP.jpg" alt="Operations Head">
+                            <h4>Ananthapadmanaban M G S</h4>
+                            <p>Chief Financial officer </p>
+                        </div>
+                    </div>
+
+                    <h3>Our Partners</h3>
+                    <ul>
+                        <li>Vadodara Municipal Corporation</li>
+                        <li>Local Hospitals Network</li>
+                        <li>Emergency Medical Services</li>
+                        <li>Healthcare Technology Providers</li>
+                    </ul>
+
+                    <h3>Get Involved</h3>
+                    <p>We're always looking for passionate individuals and organizations to join us in our mission to save lives. Whether you're a healthcare professional, technology expert, or simply want to make a difference, there are many ways to get involved:</p>
+                    <ul>
+                        <li>Join our team</li>
+                        <li>Partner with us</li>
+                        <li>Volunteer opportunities</li>
+                        <li>Support our cause</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-ambulance"></i>
+                    <h2>Smart<span>Ambulance</span></h2>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-phone"></i> Emergency: 108</p>
+                    <p><i class="fas fa-envelope"></i> mraushan8241@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 310 NHSRCL, Vadodara City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Smart Ambulance Routing System. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/mobile-menu.js"></script>
+</body>
+</html> 

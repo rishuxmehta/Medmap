@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Ambulance Routing System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <h1>Med<span>Map</span></h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="medical-store.html"><i class="fas fa-store-alt"></i> Medical Store</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay" aria-hidden="true"></div>
+        <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <i class="fas fa-ambulance"></i>
+                    <h1>Med<span>Map</span></h1>
+                </div>
+                <button class="close-mobile-menu" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3>Guest User</h3>
+                    <p>Visitor</p>
+                </div>
+            </div>
+            
+            <ul class="mobile-nav-list">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="medical-store.html"><i class="fas fa-store-alt"></i> Medical Store</a></li>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+            
+            <div class="mobile-menu-footer">
+                <div class="mobile-contact">
+                    <p><i class="fas fa-phone"></i> Emergency: 108</p>
+                    <p><i class="fas fa-envelope"></i> medmap.information2025@gmail.com</p>
+                </div>
+                
+                <div class="mobile-logout">
+                    <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>Emergency Medical Response System</h2>
+                    <p>Fast, reliable ambulance routing with real-time hospital availability</p>
+                    <div class="sos-button-container">
+                        <button id="sos-button" class="sos-button" aria-label="Emergency SOS button">
+                            <i class="fas fa-plus"></i>
+                            <span>SOS</span>
+                        </button>
+                        <p class="sos-info">Press for emergency assistance</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Live Tracking</h3>
+                    <p>Real-time ambulance location tracking</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hospital"></i>
+                    <h3>Hospital Availability</h3>
+                    <p>Find nearest hospital with available beds</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-route"></i>
+                    <h3>AI Route Optimization</h3>
+                    <p>Dynamic routing to avoid traffic</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>Real-Time Updates</h3>
+                    <p>Live data synchronization</p>
+                </div>
+            </section>
+
+            <section class="map-section">
+                <div class="section-header">
+                    <h2>Live Ambulance Tracking</h2>
+                    <div class="controls">
+                        <button id="refresh-map"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <select id="filter-ambulances">
+                            <option value="all">All Ambulances</option>
+                            <option value="available">Available</option>
+                            <option value="dispatched">Dispatched</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="map"></div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-icon ambulance-available"></span>
+                        <span>Available Ambulance</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon ambulance-dispatched"></span>
+                        <span>Dispatched Ambulance</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon hospital-available"></span>
+                        <span>Hospital (Beds Available)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon hospital-full"></span>
+                        <span>Hospital (Full)</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hospital-availability">
+                <div class="section-header">
+                    <h2>Nearby Hospitals </h2>
+                    <div class="controls">
+                        <button id="refresh-hospitals"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <select id="sort-hospitals">
+                            <option value="distance">Sort by Distance</option>
+                            <option value="beds">Sort by Available Beds</option>
+                            <option value="wait">Sort by Wait Time</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="hospital-list" id="hospital-list">
+                    <!-- Hospital cards will be dynamically generated here -->
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>1. SSG Hospital</h3>
+                                <p>Jail Road, Raopura, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">0.8 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">5 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">15 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>6/40</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar warning" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-1">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 2423400">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>2. Bhailal Amin General Hospital</h3>
+                                <p>GIDC Rd, Gorwa, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">1.3 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">8 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">10 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>19/50</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 62%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-2">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 2280201">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>3. Baroda Medical College Hospital</h3>
+                                <p>Anandpura, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">1.7 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">12 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">20 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>7/30</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar warning" style="width: 77%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-3">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 2413400">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>4. Kailash Cancer Hospital</h3>
+                                <p>Munjmahuda, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">2.2 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">15 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">5 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>33/60</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-4">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 2681100">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>5. Sterling Hospital</h3>
+                                <p>Race Course Road, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">2.5 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">18 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">8 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>25/45</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 44%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-5">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 2255555">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>6. Apollo Hospital</h3>
+                                <p>Gotri Road, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">2.8 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">20 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">12 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>15/40</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar warning" style="width: 63%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-6">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 6666666">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>7. Parul Sevashram Hospital</h3>
+                                <p>Waghodia Road, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">3.1 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">22 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">10 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>28/50</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 44%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-7">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 7777777">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>8. Shree Krishna Hospital</h3>
+                                <p>Karamsad Road, Anand, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">3.5 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">25 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">15 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>22/40</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-8">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 8888888">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>9. Shalby Hospital</h3>
+                                <p>Science City Road, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">3.8 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">28 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">18 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>35/60</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar" style="width: 42%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-9">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 9999999">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card">
+                        <div class="hospital-header">
+                            <div class="hospital-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="hospital-info">
+                                <h3>10. HCG Cancer Hospital</h3>
+                                <p>Gotri Road, Vadodara, Gujarat</p>
+                            </div>
+                        </div>
+                        <div class="hospital-details">
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Distance:</span>
+                                <span class="hospital-stat-value">4.2 km away</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Drive Time:</span>
+                                <span class="hospital-stat-value">30 mins</span>
+                            </div>
+                            <div class="hospital-stat">
+                                <span class="hospital-stat-label">Wait Time:</span>
+                                <span class="hospital-stat-value">20 mins</span>
+                            </div>
+                            <div class="hospital-beds">
+                                <div class="beds-label">
+                                    <span>Available Beds:</span>
+                                    <span>18/40</span>
+                                </div>
+                                <div class="beds-progress">
+                                    <div class="beds-bar warning" style="width: 55%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <button class="view-route-btn" data-hospital-id="hospital-10">
+                                <i class="fas fa-route"></i> View Route
+                            </button>
+                            <button class="call-hospital-btn" data-phone="(0265) 1010101">
+                                <i class="fas fa-phone"></i> Call
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Emergency Request Modal -->
+        <div class="modal" id="emergency-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Emergency Request</h2>
+                <form id="emergency-form">
+                    <div class="form-group">
+                        <label for="emergency-type">Emergency Type</label>
+                        <select id="emergency-type" required>
+                            <option value="">Select emergency type</option>
+                            <option value="cardiac">Cardiac Arrest</option>
+                            <option value="trauma">Trauma/Accident</option>
+                            <option value="respiratory">Respiratory Distress</option>
+                            <option value="stroke">Stroke</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient-name">Patient Name (if known)</label>
+                        <input type="text" id="patient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="patient-age">Patient Age (if known)</label>
+                        <input type="number" id="patient-age" min="0" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Your Location</label>
+                        <div class="location-input">
+                            <input type="text" id="location" placeholder="Detecting your location in Vadodara..." readonly>
+                            <button type="button" id="refresh-location" title="Get precise location"><i class="fas fa-location-arrow"></i></button>
+                        </div>
+                        <small class="location-accuracy" id="location-accuracy">Location accuracy: Detecting...</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile-number">Mobile Number</label>
+                        <input type="tel" id="mobile-number" placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="additional-info">Additional Information</label>
+                        <textarea id="additional-info" rows="3" placeholder="Any specific details about the emergency or location that might help the ambulance team"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="submit-btn">Request Ambulance</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Driver Notification Popup -->
+        <div class="driver-notification" id="driver-notification">
+            <div class="driver-notification-header">
+                <h3><i class="fas fa-ambulance"></i> Ambulance Dispatched</h3>
+                <button class="driver-notification-close" id="close-driver-notification">&times;</button>
+            </div>
+            <div class="driver-notification-content">
+                <div class="driver-info">
+                    <div class="driver-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="driver-details">
+                        <h4 id="driver-name">Driver Name</h4>
+                        <p id="driver-ambulance">Ambulance ID: AMB-0000</p>
+                        <p id="driver-license">License: GJ-05-XX-0000</p>
+                    </div>
+                </div>
+                <div class="driver-message">
+                    <p>"I'm on my way to your location in Vadodara. Please stay where you are and keep your phone handy."</p>
+                </div>
+                <div class="driver-eta">
+                    <span class="driver-eta-label">Estimated arrival time:</span>
+                    <span class="driver-eta-time" id="driver-eta">8-10 minutes</span>
+                </div>
+                <div class="driver-actions">
+                    <button class="driver-action-btn call-driver-btn" id="call-driver">
+                        <i class="fas fa-phone"></i> Call Driver
+                    </button>
+                    <button class="driver-action-btn track-ambulance-btn" id="track-ambulance">
+                        <i class="fas fa-map-marker-alt"></i> Track
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-ambulance"></i>
+                    <h2>Smart<span>Ambulance</span></h2>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="medical-store.html">Medical Store</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-phone"></i> 9771975466</p>
+                    <p><i class="fas fa-envelope"></i> medmap.information2025@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 310 NHSRCL, Vadodara City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Smart Ambulance Routing System. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/hospitals.js"></script>
+    <script src="js/ambulances.js"></script>
+    <script src="js/emergency.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

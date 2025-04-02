@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Smart Ambulance Routing System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container admin-container">
+        <!-- Header Section -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <h1>Med<span>Map</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="medical-store.html">Medical Store</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="admin.html" class="active">Admin</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay" aria-hidden="true"></div>
+        <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <i class="fas fa-ambulance"></i>
+                    <h1>Med<span>Map</span></h1>
+                </div>
+                <button class="close-mobile-menu" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="user-info">
+                    <h3>Admin User</h3>
+                    <p>System Administrator</p>
+                </div>
+            </div>
+            
+            <ul class="mobile-nav-list">
+                <li class="nav-section-title"><span>Admin Panel</span></li>
+                <li class="active"><a href="#" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-tab="ambulances"><i class="fas fa-ambulance"></i> Ambulances</a></li>
+                <li><a href="#" data-tab="hospitals"><i class="fas fa-hospital"></i> Hospitals</a></li>
+                <li><a href="#" data-tab="emergencies"><i class="fas fa-exclamation-circle"></i> Emergencies</a></li>
+                <li><a href="#" data-tab="routes"><i class="fas fa-route"></i> Routes</a></li>
+                <li><a href="#" data-tab="users"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="#" data-tab="updates"><i class="fas fa-bell"></i> Updates <span class="update-badge">3</span></a></li>
+                <li><a href="#" data-tab="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                
+                <li class="nav-section-title"><span>Navigation</span></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="medical-store.html"><i class="fas fa-store-alt"></i> Medical Store</a></li>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+            
+            <div class="mobile-menu-footer">
+                <div class="mobile-contact">
+                    <p><i class="fas fa-phone"></i> Emergency: 108</p>
+                    <p><i class="fas fa-envelope"></i> help@medmap.org</p>
+                </div>
+                
+                <div class="mobile-logout">
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-info">
+                    <h3>Admin User</h3>
+                    <p>System Administrator</p>
+                </div>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-tab="ambulances">
+                        <i class="fas fa-ambulance"></i>
+                        <span>Ambulances</span>
+                    </li>
+                    <li data-tab="hospitals">
+                        <i class="fas fa-hospital"></i>
+                        <span>Hospitals</span>
+                    </li>
+                    <li data-tab="emergencies">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Emergencies</span>
+                    </li>
+                    <li data-tab="routes">
+                        <i class="fas fa-route"></i>
+                        <span>Routes</span>
+                    </li>
+                    <li data-tab="users">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </li>
+                    <li data-tab="updates">
+                        <i class="fas fa-bell"></i>
+                        <span>Recent Updates</span>
+                        <span class="update-badge">3</span>
+                    </li>
+                    <li data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <button>
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h2>Admin Dashboard</h2>
+                <p>Welcome to the MedMap admin panel</p>
+            </div>
+            
+            <div class="admin-content">
+                <p>This is a test page to verify the mobile menu functionality in the admin panel.</p>
+                <p>Click the mobile menu button to see the admin-specific options.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 MedMap. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/mobile-menu.js"></script>
+    <script>
+        // Handle admin sidebar tab switching (simple version)
+        document.querySelectorAll('.admin-nav li, .mobile-nav-list li[data-tab]').forEach(item => {
+            item.addEventListener('click', function() {
+                // Handle sidebar tab clicks
+                document.querySelectorAll('.admin-nav li, .mobile-nav-list li[data-tab]').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Activate clicked tab in both sidebar and mobile menu
+                const tabId = this.getAttribute('data-tab');
+                document.querySelectorAll(`.admin-nav li[data-tab="${tabId}"], .mobile-nav-list li[data-tab="${tabId}"]`).forEach(el => {
+                    el.classList.add('active');
+                });
+                
+                // Update header title
+                document.querySelector('.admin-header h2').textContent = this.querySelector('span').textContent;
+            });
+        });
+    </script>
+</body>
+</html> 
