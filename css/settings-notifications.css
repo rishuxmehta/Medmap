@@ -1,0 +1,224 @@
+/* Settings & Notifications Styles */
+
+/* Notification Container */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+/* Notification Styling */
+.notification {
+    display: flex;
+    background: var(--card-bg, #fff);
+    border-left: 4px solid #3498db;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin-bottom: 10px;
+    animation: slide-in 0.3s ease-out forwards;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left-color: #2ecc71;
+}
+
+.notification.error {
+    border-left-color: #e74c3c;
+}
+
+.notification.warning {
+    border-left-color: #f39c12;
+}
+
+.notification.dismissing {
+    animation: slide-out 0.3s ease-in forwards;
+}
+
+.notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    font-size: 20px;
+    color: #3498db;
+}
+
+.notification.success .notification-icon {
+    color: #2ecc71;
+}
+
+.notification.error .notification-icon {
+    color: #e74c3c;
+}
+
+.notification.warning .notification-icon {
+    color: #f39c12;
+}
+
+.notification-content {
+    flex: 1;
+    padding: 15px 5px 15px 0;
+}
+
+.notification-content p {
+    margin: 0;
+    color: var(--text-color, #333);
+    font-size: 14px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    transition: color 0.2s;
+}
+
+.notification-close:hover {
+    color: var(--text-color, #333);
+}
+
+/* Password Input Styling */
+.password-input {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.password-input input {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: none;
+    border: none;
+    width: 40px;
+    color: #777;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: var(--accent-color, #3498db);
+}
+
+/* Settings Section Enhanced Styles */
+.settings-section {
+    background: var(--card-bg, #fff);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.settings-section h3 {
+    color: var(--text-color, #333);
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-section h3 i {
+    color: var(--accent-color, #3498db);
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color, #555);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 4px;
+    background-color: var(--input-bg, #f9f9f9);
+    color: var(--text-color, #333);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--accent-color, #3498db);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    outline: none;
+}
+
+.form-icon {
+    position: absolute;
+    left: 15px;
+    top: 38px;
+    color: #aaa;
+}
+
+/* Animations */
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .notification-container {
+        max-width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+    }
+} 
